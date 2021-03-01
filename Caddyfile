@@ -1,0 +1,10 @@
+example.com {
+    gzip
+    .....
+
+    route /remark42/* {
+        uri strip_prefix /remark42
+        reverse_proxy remark42:8080
+    }
+    .....
+}

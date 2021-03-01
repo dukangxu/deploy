@@ -1,0 +1,33 @@
+version: '3'
+services:
+  remark42:
+    image: umputun/remark42:latest
+    container_name: remark42
+    restart: always
+    ports: 
+      - 8080:8080
+    environment:
+      - REMARK_URL=https://example.com/remark42/
+      - SITE=example.com
+      - SECRET=1234567890
+      - AUTH_GITHUB_CID=github cid
+      - AUTH_GITHUB_CSEC=github csec
+      - ADMIN_SHARED_EMAIL=admin@example.com
+      - AUTH_EMAIL_ENABLE=true
+      - AUTH_EMAIL_FROM=admin@example.com
+      - AUTH_EMAIL_SUBJ=comment confirmation
+      - SMTP_HOST=mail serve host
+      - SMTP_PORT=25
+      - NOTIFY_TYPE=telegram
+      - NOTIFY_TELEGRAM_TOKEN=telegram token
+      - NOTIFY_TELEGRAM_CHAN=telegram chan
+    volumes:
+        - ./data:/srv/var
+    logging:
+        options:
+            max-size: "10m"
+            max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network
