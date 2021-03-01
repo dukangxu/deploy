@@ -1,0 +1,13 @@
+example.com {
+    gzip
+    .....
+
+    rewrite /git /git/
+    route /git/* {
+        uri strip_prefix /git
+        reverse_proxy gitea:3000 {
+            header_up X-Real-IP {http.request.remote.host}
+        }
+    }
+    .....
+}

@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: always
+    ports: 
+      - 3000:3000
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - TZ=Asia/Shanghai
+      - DISABLE_SSH=true
+      - RUN_MODE=prod
+      - APP_NAME=Git
+      - DISABLE_REGISTRATION=true
+      - ROOT_URL="https://example.com/git"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./data:/data
+    logging:
+      options:
+        max-size: "3m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network
