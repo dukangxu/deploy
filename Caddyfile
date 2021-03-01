@@ -1,0 +1,34 @@
+example.com {
+    tls mail@example.com
+    encode gzip
+
+    header {
+        X-XSS-Protection "1; mode=block"
+        X-Frame-Options "sameorigin"
+        X-Robots-Tag "none"
+        -Server
+    }
+
+    log {
+        output file /var/log/access.log {
+            roll_size 100mb
+            roll_keep 3
+            roll_keep_for 720h
+        }
+    }
+
+    # blog
+    handle {
+        root * /srv/public/blog
+    }
+    file_server
+
+    route /hook/blog {
+        basicauth {
+            username JDJhJDEwJEVCNmdaNEg2Ti5iejRMYkF3MFZhZ3VtV3E1SzBWZEZ5Q3VWc0tzOEJwZE9TaFlZdEVkZDhX #hiccup
+        }
+        exec bash /exec/hook-blog.sh {
+            timeout 120s
+        }
+    }
+}
