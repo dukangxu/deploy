@@ -1,0 +1,18 @@
+example.com {
+    gzip
+    .....
+
+    # aria2
+    reverse_proxy /jsonrpc aria2:6800
+
+    # proxy other
+    reverse_proxy /jsonrpc https://aria2.example.com {
+        header_up Host {http.reverse_proxy.upstream.hostport}
+    }
+
+    # ariang
+    handle /ariang {
+        uri strip_prefix /ariang
+        root * /srv/public/ariang/index.html
+    }
+}
