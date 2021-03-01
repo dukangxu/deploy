@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  bitwarden:
+    image: bitwardenrs/server:x.x.x-alpine
+    container_name: bitwarden
+    restart: always
+    volumes:
+      - ./logs:/logs
+      - ./data:/data
+    env_file:
+      - config.env
+    logging:
+      options:
+        max-size: "3m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network
