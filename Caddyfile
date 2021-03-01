@@ -1,0 +1,11 @@
+example.com {
+    gzip
+    .....
+
+    # v2ray
+    reverse_proxy /v2ry v2ray:8080 {
+        header_up -Origin
+    }
+
+    .....
+}
