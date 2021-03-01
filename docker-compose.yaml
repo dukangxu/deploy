@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  shadowsocksr:
+    container_name: shadowsocksr
+    image: dukangxu/shadowsocksr
+    volumes:
+      - ./config:/etc/shadowsocks-r
+    restart: always
+    ports:
+      - 4430:4430
+networks:
+  default:
+    external:
+      name: host-network
