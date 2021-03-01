@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  freshrss:
+    container_name: freshrss
+    image: freshrss/freshrss:alpine
+    restart: unless-stopped
+    ports: 
+      - 8080:80
+    volumes:
+      - ./data:/var/www/FreshRSS/data
+      - ./extensions:/var/www/FreshRSS/extensions
+    environment:
+      - CRON_MIN=*/20
+      - TZ=Asia/Shanghai
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network

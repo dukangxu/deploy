@@ -1,0 +1,12 @@
+example.com {
+    gzip
+    .....
+
+    route /freshrss/* {
+        uri strip_prefix /freshrss
+        reverse_proxy freshrss:80 {
+            header_down Set-Cookie "path=/i/" "path=/freshrss/i/"
+        }
+    }
+    .....
+}
