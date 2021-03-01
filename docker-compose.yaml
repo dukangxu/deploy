@@ -1,0 +1,22 @@
+version: "3"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    environment:
+      - GID=1000
+      - UID=1000
+    volumes:
+      - /path/to/config:/config
+      - /path/to/cache:/cache
+      - /path/to/media:/media
+    devices:
+      - /dev/dri:/dev/dri
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network

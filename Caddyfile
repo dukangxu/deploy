@@ -1,0 +1,8 @@
+example.com {
+    gzip
+    .....
+
+    reverse_proxy /jellyfin/* jellyfin:8096
+
+    .....
+}
