@@ -1,0 +1,12 @@
+example.com {
+    gzip
+    .....
+
+    #rsshub
+    route /rsshub/* {
+        uri strip_prefix /rsshub
+        reverse_proxy rsshub:1200
+    }
+    
+    .....
+}

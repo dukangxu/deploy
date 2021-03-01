@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  rsshub:
+    image: diygod/rsshub
+    container_name: rsshub
+    restart: always
+    environment:
+      NODE_ENV: production
+      DEBUG_INFO: 'false'
+      DISALLOW_ROBOT: 'false'
+      WHITELIST: '124.x.x.x,178.x.x.x'
+      GITHUB_ACCESS_TOKEN: 'xxxxxx'
+      DISQUS_API_KEY: 'xxxxxx'
+      TWITTER_CONSUMER_KEY: 'xxxxxx'
+      TWITTER_CONSUMER_SECRET: 'xxxxxx'
+      TWITTER_TOKEN_dukangxu: 'xxxxxx,xxxxxx,xxxxxx,xxxxxx'
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network
