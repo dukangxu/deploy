@@ -1,0 +1,43 @@
+server {
+    listen 80 default_server;
+
+        server_name _;
+
+    # Maximum file upload size is 100MB - change accordingly if needed
+    client_max_body_size 100M;
+    client_body_buffer_size 128k;
+
+    root /app/dokuwiki;
+    index doku.php;
+
+    #Remember to comment the below out when you're installing, and uncomment it when done.
+    location ~ /(conf/|bin/|inc/|install.php) { deny all; }
+
+    #Support for X-Accel-Redirect
+    location ~ ^/data/ { internal ; }
+
+    location ~ ^/lib.*\.(js|css|gif|png|ico|jpg|jpeg)$ {
+        expires 365d;
+    }
+
+    location / { try_files $uri $uri/ @dokuwiki; }
+
+    location ^~ /docs {
+        alias /app/dokuwiki;
+        index index.php;
+        try_files $uri $uri/ @dokuwiki;
+        location ~ \.php$ {
+            if (!-e $request_filename) {
+                rewrite ^/docs/?(.*)$ /docs/index.php?/$1 last;
+                break;
+            }
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include /etc/nginx/fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
+    location @dokuwiki {
+        rewrite /docs/(.*)$ /docs/index.php?/$1 last;
+    }
+}
