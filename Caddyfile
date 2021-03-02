@@ -1,0 +1,8 @@
+example.com {
+    gzip
+    .....
+
+    # lychee
+    reverse_proxy /lychee/* lychee:80
+    .....
+}

@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  lychee:
+    container_name: lychee
+    image: linuxserver/lychee
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PHP_TZ=UTZ
+      - DB_CONNECTION=mysql
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USER=lychee
+      - DB_PASS=12345678
+      - DB_DATABASE=lychee
+      - STARTUP_DELAY=30
+    volumes:
+      - ./config:/config
+      - ./pictures:/pictures
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: host-network

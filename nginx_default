@@ -1,0 +1,29 @@
+server {
+    listen 80 default_server;
+
+    root /app/lychee/public;
+    index index.php index.html index.htm;
+
+    server_name _;
+
+    client_max_body_size 0;
+
+    location ^~ /lychee {
+        alias /app/lychee/public;
+        index index.php;
+        try_files $uri $uri/ @lychee;
+        location ~ \.php$ {
+            if (!-e $request_filename) {
+                rewrite ^/lychee/?(.*)$ /lychee/index.php?/$1 last;
+                break;
+            }
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include /etc/nginx/fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
+    location @lychee {
+        rewrite /lychee/(.*)$ /lychee/index.php?/$1 last;
+    }
+}
