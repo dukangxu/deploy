@@ -1,0 +1,38 @@
+server {
+    listen 80 default_server;
+
+    root /var/www/html/public;
+    index index.php index.html index.htm;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header Content-Security-Policy upgrade-insecure-requests;
+
+    server_name _;
+
+    client_max_body_size 0;
+
+    error_page 599 = @noauth;
+
+    location @noauth {
+            try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ^~ /bookstack {
+        alias /var/www/html/public;
+        index index.php;
+        try_files $uri $uri/ @bookstack;
+        location ~ \.php$ {
+            if (!-e $request_filename) {
+                rewrite ^/bookstack/?(.*)$ /bookstack/index.php?/$1 last;
+                break;
+            }
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include /etc/nginx/fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
+    location @bookstack {
+        rewrite /bookstack/(.*)$ /bookstack/index.php?/$1 last;
+    }
+}
