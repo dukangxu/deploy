@@ -1,0 +1,17 @@
+version: '3'
+services:
+  frpc:
+    container_name: frpc
+    image: dukangxu/frp:latest
+    volumes:
+      - ./frpc.ini:/frp/frpc.ini
+      - ./config:/config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network

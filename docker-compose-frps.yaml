@@ -1,0 +1,21 @@
+version: '3'
+services:
+  frps:
+    container_name: frps
+    image: dukangxu/frp:latest
+    command: [/frp/frps, -c=/frp/frps.ini]
+    ports:
+      - 7000:7000
+      - 2222:2222 #ssh port
+    volumes:
+      - ./frps.ini:/frp/frps.ini
+      - ./config:/config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+networks:
+  default:
+    external:
+      name: host-network
