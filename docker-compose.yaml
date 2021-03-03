@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  piwigo:
+    container_name: piwigo
+    image: linuxserver/piwigo
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config:/config
+      - ./pictures:/pictures
+    ports:
+      - 80:80
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: host-network
